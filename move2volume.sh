@@ -5,7 +5,7 @@ host_dir=''
 print_usage() {
   printf "\n\nUsage:\n\n"
   printf "\tParameters:\n\n"
-  printf "\t %s\n\n" "[-d]: Specify the source data directory and move to volume." "[-y] Copy the volume output data to host machine at this directory." "[-c] Clean the volume directory." "[-p] List the directory information of the volume." "[-h] Print this menu." 
+  printf "\t %s\n\n" "[-d]: Specify the source data directory and move to volume." "[-y]: Copy the volume output data to host machine at this directory." "[-c]: Clean the volume directory." "[-p]: List the directory information of the volume." "[-h]: Print this menu." 
   exit 1
 }
 
@@ -19,9 +19,7 @@ print_volume() {
 }
 
 copy_to_volume () {
-    echo $host_dir ;
     docker container create --name move -v DBN_DATA:/root hello-world ;
-    echo "docker cp $host_dir move:/root" ;
     docker cp $host_dir move:/root ;
     docker rm move ;
 }
