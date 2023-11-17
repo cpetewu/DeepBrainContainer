@@ -1,2 +1,4 @@
 *.h5
 *.swp
+test_input/*
+data_back/*

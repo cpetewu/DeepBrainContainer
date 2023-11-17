@@ -82,9 +82,10 @@ RUN echo "Installing Ancaonda" \
     # Enable `conda activate`
     && conda init bash \ 
     && conda install --name base -c conda-forge tini \
-    && conda install --name base -c $FSL_CONDA_CHANNEL fsl-bet2 -c conda-forge
+    && conda install --name base -c $FSL_CONDA_CHANNEL fsl-base -c conda-forge \
+    && conda install --name base -c $FSL_CONDA_CHANNEL fsl-flirt -c conda-forge
 
-ENV FSLDIR="/opt/conda"
+ENV FSLDIR="/opt/miniconda-latest"
 
 #Set mount point default
 ENV DATAMOUNT /usr/data

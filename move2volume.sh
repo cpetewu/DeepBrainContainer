@@ -27,7 +27,7 @@ copy_to_volume () {
 
 copy_to_host () {
     docker container create --name move -v DBN_DATA:/root hello-world ;
-    docker cp move:/root/Output/ $host_dir ;
+    docker cp move:/root/ $host_dir ;
     docker rm move ;
 }
 
