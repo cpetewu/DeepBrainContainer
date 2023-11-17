@@ -10,13 +10,13 @@ DATADIR=$DATAMOUNT/ImageData/
 print_usage() {
   printf "\n\nUsage:\n\n"
   printf "\tRequired Parameters:\n\n"
-  printf "\t %s\n\n"  "Docker must be run with the -v option to mount a volume for user IO." "The structure of this volume must be as follows."
+  printf "\t %s\n\n"  "Docker must be run with the -v option to mount a volume for user IO." "Additionally, the mount point in the docker container must always be \"/usr/data\", i.e. your run command should be of the form \"docker run -v <your container name (DBN_DATA default)>:/usr/data deepbrain ...\"" "The structure of this volume must be as follows."
   printf "\t %s\n" "MyDockerVolume"
   printf "\t\t %s\n" "+--ImageData/..." "|" "+--Output/" "|" "+--Models/...(optional)" 
   printf "\n\tOptional Parameters:\n\n"
   printf "\t %s\n\n" "[-m]: Specify Model files to use (.h5)." "[-o]: Specify the name of the output csv." "[-p]: Run brain extraction and linear registrationon provided images." 
   
-  printf "\nExample: docker run -it -v DBN_DATA:/usr/data DeepBrain -o myOutput.csv -m myModel.h5\n\n"
+  printf "\nExample: docker run -v DBN_DATA:/usr/data deepbrain -o myOutput.csv -m myModel.h5 -p\n\n"
   exit 1
 }
 
