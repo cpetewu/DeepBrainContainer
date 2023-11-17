@@ -62,6 +62,9 @@ while getopts 'uho:m:pd:' flag; do
   esac
 done
 
+#Deactivate conda so we can use our correct python install and packages
+conda deactivate
+
 rm -r ../tmp/
 mkdir ../tmp/
 mkdir ../tmp/Test/
