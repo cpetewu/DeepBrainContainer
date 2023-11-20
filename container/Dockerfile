@@ -1,5 +1,8 @@
 FROM neurodebian:buster
 RUN apt-get update -qq \
+    && apt-get install -y software-properties-common \
+    && add-apt-repository "deb http://neuro.debian.net/debian buster main contrib non-free" \
+    && apt-get update \
     && apt-get install -y -q --no-install-recommends \
            ca-certificates \
            curl \
@@ -14,6 +17,7 @@ RUN apt-get update -qq \
            libffi-dev \
            libsqlite3-dev \
            libbz2-dev \
+           fsl=5.0.9-5~nd100+1 \
     && rm -rf /var/lib/apt/lists/* \
 
 #Install Python
@@ -53,40 +57,6 @@ RUN echo "Installing Python Packages" \
 RUN echo "Cleaning Up." \
     && rm -rf /tmp/Python-3.11.6
 
-#Install fsl.
-#Code adapted from: https://git.fmrib.ox.ac.uk/thanayik/fsl-docker-example-bet/-/blob/main/Dockerfile?ref_type=heads
-
-#Install Anaconda so we can get the correct fsl 
-ENV CONDA_DIR="/opt/miniconda-latest" \
-    PATH="/opt/miniconda-latest/bin:$PATH" \
-    FSL_CONDA_CHANNEL="https://fsl.fmrib.ox.ac.uk/fsldownloads/fslconda/public"
-
-
-RUN echo "Installing Ancaonda" \
-    && export PATH="/opt/miniconda-latest/bin:$PATH" \
-    && echo "Downloading Miniconda installer ..." \
-    && conda_installer="/tmp/miniconda.sh" \
-    && curl -fsSL -o "$conda_installer" https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh \
-    && bash "$conda_installer" -b -p /opt/miniconda-latest \
-    && rm -f "$conda_installer" \
-    && conda update -yq -nbase conda \
-    # Prefer packages in conda-forge
-    && conda config --system --prepend channels conda-forge \
-    # Packages in lower-priority channels not considered if a package with the same
-    # name exists in a higher priority channel. Can dramatically speed up installations.
-    # Conda recommends this as a default
-    # https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-channels.html
-    && conda config --set channel_priority strict \
-    && conda config --system --set auto_update_conda false \
-    && conda config --system --set show_channel_urls true \
-    # Enable `conda activate`
-    && conda init bash \ 
-    && conda install --name base -c conda-forge tini \
-    && conda install --name base -c $FSL_CONDA_CHANNEL fsl-base -c conda-forge \
-    && conda install --name base -c $FSL_CONDA_CHANNEL fsl-flirt -c conda-forge
-
-ENV FSLDIR="/opt/miniconda-latest"
-
 #Set mount point default
 ENV DATAMOUNT /usr/data
 RUN mkdir /usr/data
@@ -95,6 +65,5 @@ RUN mkdir /usr/data
 #Add local files.
 COPY . /app/
 WORKDIR /app
-RUN chmod +x ./entrypoint.sh
 
 ENTRYPOINT ["/app/entrypoint.sh"]

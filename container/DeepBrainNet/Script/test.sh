@@ -49,6 +49,7 @@ if [ ! -d $DATAMOUNT/Output ]; then
     mkdir $DATAMOUNT/Output
 fi
 
+
 while getopts 'uho:m:pd:' flag; do
   case "${flag}" in
     u) print_usage ;;
@@ -61,9 +62,6 @@ while getopts 'uho:m:pd:' flag; do
        exit 1 ;;
   esac
 done
-
-#Deactivate conda so we can use our correct python install and packages
-conda deactivate
 
 rm -r ../tmp/
 mkdir ../tmp/
