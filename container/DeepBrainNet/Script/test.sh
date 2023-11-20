@@ -49,6 +49,7 @@ if [ ! -d $DATAMOUNT/Output ]; then
     mkdir $DATAMOUNT/Output
 fi
 
+
 while getopts 'uho:m:pd:' flag; do
   case "${flag}" in
     u) print_usage ;;
