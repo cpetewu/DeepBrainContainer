@@ -10,7 +10,7 @@ DATADIR=$DATAMOUNT/ImageData/
 print_usage() {
   printf "\n\nUsage:\n\n"
   printf "\tRequired Parameters:\n\n"
-  printf "\t %s\n\n"  "Docker must be run with the -v option to mount a volume for user IO." "Additionally, the mount point in the docker container must always be \"/usr/data\", i.e. your run command should be of the form \"docker run -v <your container name (DBN_DATA default)>:/usr/data deepbrain ...\"" "The structure of this volume must be as follows."
+  printf "\t %s\n\n"  "Docker must be run with the -v option to mount a volume for user IO." "Additionally, the mount point in the docker container must always be \"/usr/data\"," "i.e. your run command should be of the form \"docker run -v <your volume name (DBN_DATA default)>:/usr/data deepbrain ...\"" "The structure of this volume must be as follows."
   printf "\t %s\n" "MyDockerVolume"
   printf "\t\t %s\n" "+--ImageData/..." "|" "+--Output/" "|" "+--Models/...(optional)" 
   printf "\n\tOptional Parameters:\n\n"
