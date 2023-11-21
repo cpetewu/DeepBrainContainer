@@ -37,7 +37,7 @@ do
 
     #Linear registration.
     printf "Performing linear registration on %s (%d/%d)...\n" ${base_name} $current_file $total_files
-    fsl5.0-flirt -v -searchcost mutualinfo -cost mutualinfo -in ${out_dir}/${base_name}_extracted.nii.gz -ref ./MNI152_T1_1mm_brain_LPS_filled.nii.gz -out ${PREPROCESSING}/${base_name}_processed.nii.gz
+    fsl5.0-flirt -v -searchcost mutualinfo -cost mutualinfo -in ${out_dir}/${base_name}_extracted.nii.gz -ref ./MNI152_T1_1mm_brain.nii.gz -out ${PREPROCESSING}/${base_name}_processed.nii.gz
 
     #Clean up. 
     rm -r $out_dir
