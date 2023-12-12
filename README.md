@@ -3,17 +3,17 @@ A [docker](https://www.docker.com/) container for [DeepBrainNet](https://github.
 
 This tool additionally includes optional preprocessing using [ROBEX](https://www.nitrc.org/projects/robex) for brain extraction and [FSL](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FLIRT) for linear regirstration to the MNI156 target atlas.
 
-##Installation
-This package can be downloaded and built on any system with docker. The only requirements are the `neurodebian:buster` and `hello-world`* base images.
+## Installation
+This package can be downloaded and built on any system with docker. The only requirements are the `neurodebian:buster` and `hello-world` * base images.
 
 To get these images run the following commands:
-1. `docker pull hello-world`*
+1. `docker pull hello-world` *
 2. `docker pull neurodebain:buster`
 
 To build this image, download the source code from this repository then run: `docker build container/ -t deepbrain`.
 This should gather the required packages and requirements for all software in the image and install it in the image.
 
-*__NOTE__: these are only required if you are going to use the `move2volume.sh` helper script for file IO.
+*__NOTE__:  Only required if you are going to use the `move2volume.sh` helper script for file IO.
 
 ## Usage
 ### Dealing with file IO
@@ -32,16 +32,21 @@ Usage:
 
          [-d]: Specify the source data directory and move to volume.
 
-         [-y]: Copy the volume output data to host machine at this directory.
+         [-y]: Copy the volume output data to host machine at this directory. *
 
          [-c]: Clean the volume directory.
 
-         [-p]: List the directory information of the volume.
+         [-p]: List the directory information of the volume. **
 
          [-v]: Specify the name of the volume you want to write to or read from (DBN_DATA is default)
 
          [-h]: Print this menu.
 ```
+*__NOTE__: When specifying the directory for this command it is best to navigate into the directory you wish to copy and specify `.` as the directory, otherwise
+           some directories might not get copied depending on how the directory is specified.
+
+**__NOTE__: This will list all the directories with `/volume` as the first directory, this is the mount point that a temporary docker contianer is using to list
+            out directory information. When considering the actual file structure of the volume disregard `/volume` from the path. 
 
 ### Processing
 
