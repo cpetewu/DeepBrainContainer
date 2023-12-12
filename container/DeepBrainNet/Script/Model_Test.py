@@ -49,32 +49,20 @@ sex_test = []
 slice_test = []
 deplist = []
 test_generator.reset()
-i = 0
 
 for x in test_generator.filenames:
-    i = i+1
-    sl = x.split('-')[1].split('.')[0]
-    x = x.split('_T1')[0]
-
+    x = x.split('-')[0]
     IDlist.append(x)
-
-
 
 test_generator.reset()
 predicty = model.predict_generator(test_generator,verbose=1, steps = test_generator.n/batch_size)
-
-
-
-
-
-
-
 
 prediction_data = pd.DataFrame()
 prediction_data['ID'] = IDlist
 
 prediction_data['Prediction'] = predicty
 
+#Remove duplicates???
 IDset = set(prediction_data['ID'].values)
 IDset = list(IDset)
 
