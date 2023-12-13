@@ -18,6 +18,11 @@ This should gather the required packages and requirements for all software in th
 ## Usage
 ### Dealing with file IO
 
+The general workflow for using this docker container is as follows:
+1. Create a docker volume to upload your data to (can be done manually or with `move2volume.sh`).
+2. Run the docker container with `docker run`.
+3. Move the data back to your local directory (can be done manually or with `move2volume.sh`).
+
 Docker requires either the use of file mounts or docker volumes for file IO when interacting with docker containers. This project uses docker volumes as they are abstracted away from host OS requirements and thus are most portable.
 
 The script `move2volume.sh` is a wrapper around some basic docker commands which help the user view, read, and write information to and from docker volumes. This wrapper will only work on some linux environments, though one could use the source code as a guide to interact with docker volumes manually.
