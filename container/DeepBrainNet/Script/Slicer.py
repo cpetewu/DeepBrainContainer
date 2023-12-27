@@ -11,19 +11,24 @@ import math
 from PIL import Image
 import sys
 import os
+import fnmatch
 
 myDirectory = str(sys.argv[1])
 Destination = str(sys.argv[2])
 
-y=0
-directory = os.fsencode(myDirectory)
+#directory = os.fsencode(myDirectory)
 
-for index,file in enumerate(os.listdir(directory)):
+#Collect all the .nii.gz files into one list by finding them recursively
+matches = []
+for root, dirnames, filenames in os.walk(myDirectory):
+    for filename in fnmatch.filter(filenames, '*.nii.gz'):
+            matches.append(os.path.join(root, filename))
+
+for index,file in enumerate(matches):
     myFile = os.fsencode(file)
     myFile = myFile.decode('utf-8')
-    myNifti = nib.load((myDirectory +myFile))
-    print('Slicing ',y, 'Train')
-    y = 1+y
+    myNifti = nib.load((myFile))
+    
     data = myNifti.get_data()
     data = data*(185.0/np.percentile(data, 97))
 
@@ -32,10 +37,10 @@ for index,file in enumerate(os.listdir(directory)):
     #Create a directory for the images.
     #Remove the .nii and .gz extensions.
 
-    myFile = myFile.replace('.gz','').replace('.nii','')
+    myFile = os.path.basename(myFile).replace('.gz','').replace('.nii','')
 
-    slice_dest = os.path.join(Destination, myFile)
-    os.mkdir(slice_dest) 
+    slice_dest = os.path.join(Destination, myFile).replace('_processed','')
+    os.mkdir(slice_dest) #Remove processed from the file name.
     
     for sl in range(0,80):
         x = sl

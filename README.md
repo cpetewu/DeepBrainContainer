@@ -83,8 +83,10 @@ Usage:
 
          [-p]: Run brain extraction and linear registrationon provided images.
 
+         [-t]: Specify the threshold value for registraion flagging. Expects an overlap ratio (0.98 default).
 
-Example: docker run -v DBN_DATA:/usr/data deepbrain -o myOutput.csv -m myModel.h5 -p
+
+Example: docker run -v DBN_DATA:/usr/data deepbrain -o myOutput.csv -m myModel.h5 -p -t 0.99
 ```
 
 The above command did not specify any docker volume to mount, so the message "Volume not mounted correctly." is provided. This can be solved by 
@@ -98,7 +100,8 @@ This is necissary so the container knows where to look for particular files.
 There are 3 optional parameters the user can specify when running the deepbrain container.
 1. `-m` Specifies what DeepBrainNet model to use for brain age prediction inside of `<yourvolume>/Models`.
 2. `-o` Specifies the file name of the output csv which will be wrote to `<yourvolume/Output>`.
-3. `-p` This is a flag which tells the tool if pre-processing should be run on the volumes in `<yourvolume>/ImageData`.
+3. `-p` This is a flag which tells the container if pre-processing should be run on the volumes in `<yourvolume>/ImageData`.
+4. `-t` This sets the threshold value to flag registrations for QC. Any overlap ratio above this value will be moved into `<yourvolume>/Preprocessing/Flagged` (default 0.98).
 
 #### Preprocessing
 In the case that the `-p` flag is specified the deepbrain container will perform the following:
@@ -108,6 +111,7 @@ In the case that the `-p` flag is specified the deepbrain container will perform
 4. A bias field normalization is performed with FSL fast.
 5. Linear registration is performed with FSL flirt.
 
-The result of these operations is wrote to a preprocessing folder in `<yourvolume>/Preprocessing` (created if this does not exist) which is then used for
-processing with DBN. The original unprocessed scans in `<yourvolume>/ImageData` will remain unchanged.
+The result of these operations is saved to a preprocessing folder in `<yourvolume>/Preprocessing/Processed` or  
+`<yourvolume>/Preprocessing/Flagged` (created if does not exist) depending on if the linear registration passes your specified threshold value (`-t`). 
+Finally, all images found in `Flagged` or `Processed` is then passed to DBN. The original unprocessed scans in `<yourvolume>/ImageData` will remain unchanged.
 

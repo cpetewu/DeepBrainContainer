@@ -42,12 +42,7 @@ test_generator=datagen_test.flow_from_directory(
 	shuffle=False,
 	class_mode=None)
 
-labels_test = []
-sitelist = []
 IDlist = []
-sex_test = []
-slice_test = []
-deplist = []
 test_generator.reset()
 
 for x in test_generator.filenames:
