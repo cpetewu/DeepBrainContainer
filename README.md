@@ -1,7 +1,7 @@
 # DeepBrainContainer
 A [docker](https://www.docker.com/) container for [DeepBrainNet](https://github.com/vishnubashyam/DeepBrainNet) (DBN).
 
-This tool additionally includes optional preprocessing using [ROBEX](https://www.nitrc.org/projects/robex) for brain extraction and [FSL](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FLIRT) for linear regirstration to the MNI156 target atlas.
+This tool additionally includes optional preprocessing using [ROBEX](https://www.nitrc.org/projects/robex) for brain extraction and [FSL](https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FLIRT) for linear regirstration to the MNI152 target atlas.
 
 ## Installation
 This package can be downloaded and built on any system with docker. The only requirements are the `neurodebian:buster` and `hello-world` * base images.
@@ -17,6 +17,11 @@ This should gather the required packages and requirements for all software in th
 
 ## Usage
 ### Dealing with file IO
+
+The general workflow for using this docker container is as follows:
+1. Create a docker volume to upload your data to (can be done manually or with `move2volume.sh`).
+2. Run the docker container with `docker run`.
+3. Move the data back to your local directory (can be done manually or with `move2volume.sh`).
 
 Docker requires either the use of file mounts or docker volumes for file IO when interacting with docker containers. This project uses docker volumes as they are abstracted away from host OS requirements and thus are most portable.
 
@@ -93,7 +98,7 @@ The above command did not specify any docker volume to mount, so the message "Vo
 specifying the `-v` option when running as specified in the help message.
 
 Additionally, the message also specifies the file structure which must be preserved in the docker volume mounted to the deepbrain container.
-This is necissary so the container knows where to look for particular files.
+This is necessary so the container knows where to look for particular files.
 
 #### Optional Parameters
 
