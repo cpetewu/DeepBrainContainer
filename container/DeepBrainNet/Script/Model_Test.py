@@ -46,7 +46,7 @@ IDlist = []
 test_generator.reset()
 
 for x in test_generator.filenames:
-    x = x.split('-')[0]
+    x = x.split('/')[0]
     IDlist.append(x)
 
 test_generator.reset()
