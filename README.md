@@ -43,10 +43,12 @@ Usage:
 
          [-p]: List the directory information of the volume. **
 
-         [-v]: Specify the name of the volume you want to write to or read from (DBN_DATA is default)
+         [-v]: Specify the name of the volume you want to write to or read from (DBN_DATA is default). THIS MUST PRECEED ANY OTHER OPTIONS.
 
          [-h]: Print this menu.
 ```
+__-v__: When specifying a specific volume this option must be the first option specified. Otherwise the program will use DBN_DATA when executing the other options for any function specified before -v is set.
+
 *__NOTE__: When specifying the directory for this command it is best to navigate into the directory you wish to copy and specify `.` as the directory, otherwise
            some directories might not get copied depending on how the directory is specified.
 
