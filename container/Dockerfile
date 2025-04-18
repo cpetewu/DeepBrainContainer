@@ -58,7 +58,7 @@ RUN echo "Cleaning Up." \
     && rm -rf /tmp/Python-3.11.6
 
 #Set mount point default
-ENV DATAMOUNT /usr/data
+ENV DATAMOUNT=/usr/data
 RUN mkdir /usr/data
 
 #Make the entrypoint executable.

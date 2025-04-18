@@ -1,7 +1,6 @@
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import Normalizer
 import nibabel as nib
-# from nilearn import plotting
 import re
 import numpy as np
 import pandas as pd
@@ -12,6 +11,7 @@ from PIL import Image
 import sys
 import os
 import fnmatch
+import pdb
 
 myDirectory = str(sys.argv[1])
 Destination = str(sys.argv[2])
@@ -25,11 +25,15 @@ for root, dirnames, filenames in os.walk(myDirectory):
             matches.append(os.path.join(root, filename))
 
 for index,file in enumerate(matches):
-    myFile = os.fsencode(file)
-    myFile = myFile.decode('utf-8')
-    myNifti = nib.load((myFile))
-    
-    data = myNifti.get_data()
+    try:
+        myFile = os.fsencode(file)
+        myFile = myFile.decode('utf-8')
+        myNifti = nib.load((myFile))
+        data = myNifti.get_fdata()
+    except Exception as e:
+        print(f'Could not load the file {file}, Error: {e}')
+        continue
+
     data = data*(185.0/np.percentile(data, 97))
 
     scaler = StandardScaler()
