@@ -10,6 +10,9 @@ To get these images run the following commands:
 1. `docker pull hello-world` *
 2. `docker pull neurodebian:buster`
 
+Additionally, the DeepBrainNet model is __not__ included in this repository. The default model should be downloaded from [DeepBrainNet](https://github.com/vishnubashyam/DeepBrainNet) and placed within the default models directory:
+`./container/DeepBrainNet/Models/DBN_model.h5`
+
 To build this image, download the source code from this repository then run: `docker build container/ -t deepbrain`.
 This should gather the required packages and requirements for all software in the image and install it in the image.
 
