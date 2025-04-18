@@ -8,7 +8,7 @@ This package can be downloaded and built on any system with docker. The only req
 
 To get these images run the following commands:
 1. `docker pull hello-world` *
-2. `docker pull neurodebain:buster`
+2. `docker pull neurodebian:buster`
 
 To build this image, download the source code from this repository then run: `docker build container/ -t deepbrain`.
 This should gather the required packages and requirements for all software in the image and install it in the image.
