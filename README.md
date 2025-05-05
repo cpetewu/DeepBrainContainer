@@ -125,3 +125,6 @@ The result of these operations is saved to a preprocessing folder in `<yourvolum
 `<yourvolume>/Preprocessing/Flagged` (created if does not exist) depending on if the linear registration passes your specified threshold value (`-t`). 
 Finally, all images found in `Flagged` or `Processed` is then passed to DBN. The original unprocessed scans in `<yourvolume>/ImageData` will remain unchanged.
 
+__NOTE__: If you want to run this model with already processed data. Then these images must be placed in `ImageData` and not in `Preprocessing`. 
+The container will __always__ look in `ImageData` for its inital data to run predicitions on. Specifying `-p` will cause the creation of `Preprocessing` just as 
+a way for you to obtain the actual preprocessed data used by DBN, not as a mechanism for providing data to the container.
