@@ -8,7 +8,10 @@ This package can be downloaded and built on any system with docker. The only req
 
 To get these images run the following commands:
 1. `docker pull hello-world` *
-2. `docker pull neurodebain:buster`
+2. `docker pull neurodebian:buster`
+
+Additionally, the DeepBrainNet model is __not__ included in this repository. The default model should be downloaded from [DeepBrainNet](https://github.com/vishnubashyam/DeepBrainNet) and placed within the default models directory:
+`./container/DeepBrainNet/Models/DBN_model.h5`
 
 To build this image, download the source code from this repository then run: `docker build container/ -t deepbrain`.
 This should gather the required packages and requirements for all software in the image and install it in the image.
@@ -122,3 +125,6 @@ The result of these operations is saved to a preprocessing folder in `<yourvolum
 `<yourvolume>/Preprocessing/Flagged` (created if does not exist) depending on if the linear registration passes your specified threshold value (`-t`). 
 Finally, all images found in `Flagged` or `Processed` is then passed to DBN. The original unprocessed scans in `<yourvolume>/ImageData` will remain unchanged.
 
+__NOTE__: If you want to run this model with already processed data. Then these images must be placed in `ImageData` and not in `Preprocessing`. 
+The container will __always__ look in `ImageData` for its inital data to run predicitions on. Specifying `-p` will cause the creation of `Preprocessing` just as 
+a way for you to obtain the actual preprocessed data used by DBN, not as a mechanism for providing data to the container.

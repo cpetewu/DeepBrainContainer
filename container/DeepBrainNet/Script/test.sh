@@ -80,6 +80,7 @@ rm -r $DATAMOUNT/tmp/
 mkdir $DATAMOUNT/tmp/
 
 python3 ${DBN_SCRIPTS}/Slicer.py ${DATADIR} ${DATAMOUNT}/tmp/
+echo "Completed Slicing"
 python3 ${DBN_SCRIPTS}/Model_Test.py ${DATAMOUNT}/tmp/ ${OUTPATH} ${MODEL}
 
 rm -r $DATAMOUNT/tmp/

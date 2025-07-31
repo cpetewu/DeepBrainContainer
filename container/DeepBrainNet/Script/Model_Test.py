@@ -1,25 +1,8 @@
-
-
-import keras
-from keras.applications.resnet50 import ResNet50
-from keras.preprocessing import image
-from keras import models, optimizers
 from keras.preprocessing.image import ImageDataGenerator
-from keras import regularizers
-from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
-from keras import models
-from keras import layers
-from keras import optimizers
-
 import numpy as np
 import pandas as pd
-import math
-
-#import h5py
 from keras.models import load_model
 import sys
-import os
-from os import listdir
 
 
 print(sys.argv[3])
@@ -67,8 +50,6 @@ final_labels = []
 final_site = []
 
 for x in IDset:
-
-
     check_predictions = prediction_data[prediction_data['ID']==x]['Prediction']
     predicty = check_predictions.reset_index(drop = True)
 
