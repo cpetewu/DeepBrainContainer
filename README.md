@@ -40,11 +40,15 @@ Usage:
 
          [-d]: Specify the source data directory and move to volume.
 
-         [-y]: Copy the volume output data to host machine at this directory. *
+         [-y]: Copy the all volume data to host machine at this directory.
+
+         [-o]: Copy the DBN predicition data to host machine at this directory.
+
+         [-r]: Copy the DBN preprocessing data to host machine at this directory.
 
          [-c]: Clean the volume directory.
 
-         [-p]: List the directory information of the volume. **
+         [-p]: List the directory information of the volume.
 
          [-v]: Specify the name of the volume you want to write to or read from (DBN_DATA is default). THIS MUST PRECEED ANY OTHER OPTIONS.
 
