@@ -1,7 +1,7 @@
-#! /bin/bash
-#Make test script executable.
-chmod +x ./DeepBrainNet/Script/test.sh
+#!/bin/bash
+set -e
+
+echo "ARGS RECEIVED: $@"
 
 ROOT_DIR="./DeepBrainNet"
-${ROOT_DIR}/Script/test.sh "$@" 
- 
+exec ${ROOT_DIR}/Script/test.sh "$@"

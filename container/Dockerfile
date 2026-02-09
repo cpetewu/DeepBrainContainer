@@ -2,6 +2,7 @@ FROM neurodebian:buster
 RUN sed -i 's|http://deb.debian.org/debian|http://archive.debian.org/debian|g' /etc/apt/sources.list && \
     sed -i 's|http://security.debian.org/debian-security|http://archive.debian.org/debian-security|g' /etc/apt/sources.list && \
     echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid-until
+
 RUN apt-get update -qq \
     && apt-get install -y software-properties-common \
     && add-apt-repository "deb http://neuro.debian.net/debian buster main contrib non-free" \
@@ -60,13 +61,15 @@ RUN echo "Installing Python Packages" \
 RUN echo "Cleaning Up." \
     && rm -rf /tmp/Python-3.11.6
 
-#Set mount point default
-ENV DATAMOUNT=/usr/data
-RUN mkdir /usr/data
-
 #Make the entrypoint executable.
 #Add local files.
 COPY . /app/
 WORKDIR /app
+
+ENV DATAMOUNT=/data
+RUN mkdir /data
+
+RUN chmod +x /app/entrypoint.sh \
+    && chmod +x /app/DeepBrainNet/Script/test.sh
 
 ENTRYPOINT ["/app/entrypoint.sh"]
