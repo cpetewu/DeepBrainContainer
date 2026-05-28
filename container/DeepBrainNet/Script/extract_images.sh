@@ -42,6 +42,6 @@ do
 
     #Linear registration.
     printf "Performing linear registration on %s (%d/%d)...\n" ${base_name} $current_file $total_files
-    fsl5.0-flirt -searchcost corratio -cost corratio -in ${out_dir}/${base_name}_extracted_restore.nii.gz -ref ./MNI152_T1_1mm_brain.nii.gz -out ${base_name}_processed.nii.gz
+    fsl5.0-flirt -searchcost corratio -cost corratio -in ${out_dir}/${base_name}_extracted_restore.nii.gz -ref ./MNI152_T1_1mm_brain.nii.gz -out ${PREPROCESSING}/${base_name}_processed.nii.gz
 
 done
