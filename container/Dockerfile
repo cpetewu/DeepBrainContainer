@@ -69,4 +69,6 @@ RUN mkdir /usr/data
 COPY . /app/
 WORKDIR /app
 
+RUN chmod +x ./DeepBrainNet/Script/test.sh
+
 ENTRYPOINT ["/app/entrypoint.sh"]

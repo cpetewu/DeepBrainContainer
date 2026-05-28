@@ -6,7 +6,6 @@ HOSTPATH=''
 MODEL=${DBN_MODELS}"/DBN_model.h5"
 OUTPATH="${DATAMOUNT}/Output/Prediction.csv"
 DATADIR=$DATAMOUNT/ImageData/
-THRESHOLD=0.98
 
 print_usage() {
   printf "\n\nUsage:\n\n"
@@ -28,22 +27,12 @@ brain_extraction() {
         printf "Preprocessing directory not found. Creating it now.\n"
         mkdir $DATAMOUNT/Preprocessing 
 
-        #Check if the processed,overlay,flagged subdirectories exist.
-        if [ ! -d $DATAMOUNT/Preprocessing/Processed ]; then
-            printf "Creating Processed directory...\n "
-            mkdir $DATAMOUNT/Preprocessing/Processed
-        fi
-        
-        if [ ! -d $DATAMOUNT/Preprocessing/Flagged ]; then 
-            printf "Creating Flagged directory...\n "
-            mkdir $DATAMOUNT/Preprocessing/Flagged
-        fi
     fi
     
     #Set the correct image data path.
     DATADIR="${DATAMOUNT}/Preprocessing/"
     
-    $DBN_SCRIPTS/extract_images.sh ${THRESHOLD}
+    $DBN_SCRIPTS/extract_images.sh 
 }
 
 #Check to see if the volume mounted correctly.
@@ -62,14 +51,13 @@ if [ ! -d $DATAMOUNT/Output ]; then
 fi
 
 
-while getopts 'uho:m:pd:t:' flag; do
+while getopts 'uho:m:pd:' flag; do
   case "${flag}" in
     u) print_usage ;;
     h) print_usage ;;
     o) OUTPATH="${DATAMOUNT}/Output/${OPTARG}" ;;
     d) HOSTPATH=$OPTARG ;;
     m) MODEL="${DATAMOUNT}/Models/${OPTARG}" ;;
-    t) THRESHOLD=${OPTARG} ;;
     p) brain_extraction ;;
     *) print_usage
        exit 1 ;;
