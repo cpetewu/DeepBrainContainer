@@ -1,6 +1,10 @@
 #! /bin/bash
 
 PREPROCESSING=$DATAMOUNT/Preprocessing
+DEBUG=$PREPROCESSING/debug
+
+mkdir -p $DEBUG
+
 total_files=$(find "$DATAMOUNT/ImageData" -maxdepth 1 -type f | wc -l)
 current_file=0
 
@@ -12,7 +16,7 @@ do
     base_name=${base_name%.nii.gz}
     mask_name=${base_name}_mask.nii.gz    
 
-    out_dir=$PREPROCESSING/$base_name
+    out_dir=$DEBUG/$base_name
 
     mkdir $out_dir 
 
@@ -28,7 +32,7 @@ do
     fsl5.0-fslmaths ${out_dir}/${mask_name} -dilD -dilD -ero -fillh26 ${out_dir}/${mask_name}  
 
     #Create the final image.
-    fsl5.0-fslmaths $brainimage -mul ${out_dir}/${mask_name} ${out_dir}/${base_name}_extracted.nii.gz 
+    fsl5.0-fslmaths $brainimage -mul ${out_dir}/${mask_name} ${DEBUG}/${base_name}_extracted.nii.gz 
 
     #Do bias feild correction.
     printf "Performing bias feild correction on %s (%d/%d)...\n" ${base_name} $current_file $total_files
@@ -36,9 +40,6 @@ do
 
     #Linear registration.
     printf "Performing linear registration on %s (%d/%d)...\n" ${base_name} $current_file $total_files
-    fsl5.0-flirt -searchcost corratio -cost corratio -in ${out_dir}/${base_name}_extracted.nii.gz -ref ./MNI152_T1_1mm_brain.nii.gz -out ${PREPROCESSING}/${base_name}_processed.nii.gz
-    
-    #Clean up. 
-    rm -r $out_dir
+    fsl5.0-flirt -searchcost corratio -cost corratio -in ${out_dir}/${base_name}_extracted_restore.nii.gz -ref ./MNI152_T1_1mm_brain.nii.gz -out ${PREPROCESSING}/${base_name}_processed.nii.gz
 
 done
