@@ -29,6 +29,8 @@ brain_extraction() {
     fi
     
     $DBN_SCRIPTS/extract_images.sh
+
+    DATADIR="${DATAMOUNT}/Preprocessing"
 }
 
 #Check to see if the volume mounted correctly.
@@ -62,6 +64,8 @@ done
 
 rm -r $DATAMOUNT/tmp/
 mkdir $DATAMOUNT/tmp/
+
+echo "Slicing in ${DATADIR}."
 
 python3 ${DBN_SCRIPTS}/Slicer.py ${DATADIR} ${DATAMOUNT}/tmp/
 echo "Completed Slicing"

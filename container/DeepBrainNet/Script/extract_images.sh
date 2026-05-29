@@ -1,7 +1,7 @@
 #! /bin/bash
 
-PREPROCESSING=$DATAMOUNT/Preprocessing
-DEBUG=$PREPROCESSING/debug
+PREPROCESSING="${DATAMOUNT}/Preprocessing"
+DEBUG="${DATAMOUNT}/debug"
 
 mkdir -p $DEBUG
 
@@ -17,29 +17,30 @@ do
     mask_name=${base_name}_mask.nii.gz    
 
     out_dir=$DEBUG/$base_name
-
     mkdir $out_dir 
 
     printf "Performing brain extraction on %s (%d/%d)...\n" ${base_name} $current_file $total_files
-
-    #Using Nick and Kalen's Brain Extraction technique.
-    ./ROBEX/runROBEX.sh $brainimage "${out_dir}/${base_name}_temp.nii.gz" "${out_dir}/${mask_name}" 
     
+    brain_mask="${out_dir}/${mask_name}"
+    #Using Nick and Kalen's Brain Extraction technique.
+    ./ROBEX/runROBEX.sh $brainimage "${out_dir}/${base_name}_temp.nii.gz" "${brain_mask}" 
     #Remove the temp image because we are using the mask anyways.
     rm ${out_dir}/${base_name}_temp.nii.gz
 
     #Ensure we have really captured the whole brain.
-    fsl5.0-fslmaths ${out_dir}/${mask_name} -dilD -dilD -ero -fillh26 ${out_dir}/${mask_name}  
+    fsl5.0-fslmaths "${brain_mask}" -dilD -dilD -ero -fillh26 "${brain_mask}"  
 
     #Create the final image.
-    fsl5.0-fslmaths $brainimage -mul ${out_dir}/${mask_name} ${DEBUG}/${base_name}_extracted.nii.gz 
+    extracted_brain="${out_dir}/${base_name}_extracted.nii.gz"
+    fsl5.0-fslmaths "${brainimage}" -mul "${brain_mask}" "${extracted_brain}" 
 
     #Do bias feild correction.
-    printf "Performing bias feild correction on %s (%d/%d)...\n" ${base_name} $current_file $total_files
-    fsl5.0-fast -t 1 -n 3 -H 0.1 -I 4 -l 20.0 -b -B ${out_dir}/${base_name}_extracted.nii.gz
-
+    printf "Performing bias feild correction on %s (%d/%d)...\n" ${base_name} ${current_file} ${total_files}
+    fsl5.0-fast -t 1 -n 3 -H 0.1 -I 4 -l 20.0 -b -B "${extracted_brain}"
+    
+    bias_corrected="${out_dir}/${base_name}_extracted_restore.nii.gz"
     #Linear registration.
     printf "Performing linear registration on %s (%d/%d)...\n" ${base_name} $current_file $total_files
-    fsl5.0-flirt -searchcost corratio -cost corratio -in ${out_dir}/${base_name}_extracted_restore.nii.gz -ref ./MNI152_T1_1mm_brain.nii.gz -out ${PREPROCESSING}/${base_name}_processed.nii.gz
+    fsl5.0-flirt -searchcost corratio -cost corratio -in "${bias_corrected}" -ref ./MNI152_T1_1mm_brain.nii.gz -out "${PREPROCESSING}/${base_name}_processed.nii.gz"
 
 done
