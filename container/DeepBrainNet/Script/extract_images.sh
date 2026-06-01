@@ -19,11 +19,16 @@ do
     out_dir=$DEBUG/$base_name
     mkdir $out_dir 
 
+    printf "re-orienting to standard orientation %s (%d/%d)...\n" ${base_name} $current_file $total_files
+    
+    reoriented="${out_dir}/${base_name}_reoriented.nii.gz"
+    fsl5.0-fslreorient2std "${brainimage}" "${reoriented}"
+
     printf "Performing brain extraction on %s (%d/%d)...\n" ${base_name} $current_file $total_files
     
     brain_mask="${out_dir}/${mask_name}"
     #Using Nick and Kalen's Brain Extraction technique.
-    ./ROBEX/runROBEX.sh $brainimage "${out_dir}/${base_name}_temp.nii.gz" "${brain_mask}" 
+    ./ROBEX/runROBEX.sh "${reoriented}" "${out_dir}/${base_name}_temp.nii.gz" "${brain_mask}" 
     #Remove the temp image because we are using the mask anyways.
     rm ${out_dir}/${base_name}_temp.nii.gz
 
